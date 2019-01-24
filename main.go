@@ -21,7 +21,38 @@ func main() {
 	if err != nil {
 		exit("Failed to parse the provided CSV file")
 	}
-	fmt.Println(lines)
+	problems := parseLines(lines)
+
+	correct := 0
+	//	iterates through the problems and prints the problem
+	for i, p := range problems {
+		fmt.Printf("Problem #%d: %s = \n", i+1, p.q)
+		var answer string
+		fmt.Scanf("%s\n", &answer)
+		if answer == p.a {
+			fmt.Println("Correct!")
+			correct++
+		}
+	}
+	fmt.Printf("You scored %d out of %d\n", correct, len(problems))
+}
+
+//	Parses from 2d string slice and returns a slice of problems
+func parseLines(lines [][]string) []problem {
+	ret := make([]problem, len(lines))
+	for i, line := range lines {
+		ret[i] = problem{
+			q: line[0],
+			a: line[1],
+		}
+	}
+	return ret
+}
+
+//	struct for what the problems are formatted as
+type problem struct {
+	q string
+	a string
 }
 
 func exit(msg string) {
